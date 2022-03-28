@@ -9,12 +9,14 @@ import NavBar from './NavBar'
 import PromoBanner from './PromoBanner'
 import 'react-toastify/dist/ReactToastify.css';
 
-interface Head{
+export interface Head{
     title: string;
     meta?: {
         description?: string;
+        author?: string;
     };
-    icon: string;
+    icon?: string;
+    img: string;
 }
 
 interface LayoutProps {
@@ -26,9 +28,11 @@ interface LayoutProps {
 const defaultHeadValue = {
     title: "next-news",
     meta: {
-        description: "Lorem ipsum"
+        description: "NextNews exam for the position of frontend developer/software engineer",
+        author: "Dawn Lemuel Bugay"
     },
-    icon: "/favicon.ico"
+    icon: "/favicon.ico",
+    img: "/favicon.ico"
 }
 
 const Layout = ({children, head = defaultHeadValue, isAdmin=false}: LayoutProps) => {
@@ -49,6 +53,17 @@ const Layout = ({children, head = defaultHeadValue, isAdmin=false}: LayoutProps)
             <Head>
                 <title>{head.title}</title>
                 <meta name="description" content={head.meta?.description} />
+                <meta name="author" content={head.meta?.author} />
+                <meta property="og:title" content={head.title} />
+                <meta property="og:description" content={head.meta?.description} />
+                <meta property="og:type" content="article" />
+                <meta property="og:image" content={head.img} />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content={head.title} />
+                <meta name="twitter:description" content={head.meta?.description} />
+                <meta name="twitter:image" content={head.img} />
+                <meta name="twitter:image:alt" content={head.title} />
+
                 <link rel="icon" href={head.icon} />
             </Head>
             <PromoBanner />
