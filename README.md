@@ -1,4 +1,13 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# NextNews
+
+## Tech Stacks
+* Next JS (UI and API)
+* Node JS
+* Typescript
+* MongoDB
+* Tailwind CSS
+* Cloudinary (Cloud Image Storage)
+
 
 ## Getting Started
 
