@@ -30,7 +30,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         },
         PUT: async (req: NextApiRequest, res: NextApiResponse) => {
             const { Article } = await connect()
-            if(req.body?.title){
+            const oldValArticle = await Article.findOne({_id: id}).catch(catcher)
+
+            if(req.body?.title && oldValArticle.title !== req.body.title){
                 await Article.findByIdAndUpdate(id, {...req.body, slug: generateUniqueSlug(req.body.title) }).catch(catcher)
             }else{
                 await Article.findByIdAndUpdate(id, req.body).catch(catcher)

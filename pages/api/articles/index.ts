@@ -22,13 +22,26 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     // Potential Responses
     const handleCase: ResponseFuncs = {
         GET: async (req: NextApiRequest, res: NextApiResponse) => {
-        const { Article } = await connect() // connect to database
-        res.json(await Article.find({}).catch(catcher))
+            const { Article } = await connect() // connect to database
+            const { page=0, pageSize=10, search="" } = req.query
+            const totalArticles = (await Article.find({})).length
+
+            console.log({page, pageSize, search })
+            res.json({
+                totalArticles,
+                articles: await Article.find(
+                    { "title": { "$regex": search, "$options": "i" } },
+                )
+                    .sort({published:'desc'})
+                    .skip(parseInt(`${page}`)*parseInt(`${pageSize}`))
+                    .limit(parseInt(`${pageSize}`))
+                    .catch(catcher)
+            })
         },
         POST: async (req: NextApiRequest, res: NextApiResponse) => {
-        const { Article } = await connect() // connect to database
-        const createdArticle = await Article.create({...req.body, slug: generateUniqueSlug(req.body.title)}).catch(catcher)
-        res.json(createdArticle)
+            const { Article } = await connect() // connect to database
+            const createdArticle = await Article.create({...req.body, slug: generateUniqueSlug(req.body.title)}).catch(catcher)
+            res.json(createdArticle)
         },
         // DELETE: async(req: NextApiRequest, res: NextApiResponse) => {
         //   const { Article } = await connect() // connect to database

@@ -3,9 +3,11 @@ import React from 'react'
 import { ReactChildren } from 'react';
 import { useEffect } from 'react';
 import { ReactChild } from 'react';
+import { ToastContainer } from 'react-toastify';
 import Footer from './Footer'
 import NavBar from './NavBar'
 import PromoBanner from './PromoBanner'
+import 'react-toastify/dist/ReactToastify.css';
 
 interface Head{
     title: string;
@@ -38,6 +40,12 @@ const Layout = ({children, head = defaultHeadValue, isAdmin=false}: LayoutProps)
 
     return (
         <div className="">
+            <ToastContainer
+                position="bottom-right"
+                autoClose={3000}
+                hideProgressBar={true}
+                theme={'dark'}
+            />
             <Head>
                 <title>{head.title}</title>
                 <meta name="description" content={head.meta?.description} />

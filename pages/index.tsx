@@ -11,45 +11,46 @@ import request from '../services/request';
 import { useState } from 'react'
 import { Article } from '../services/types'
 import { SearchIcon } from '@heroicons/react/solid'
+import Pagination from '../components/Pagination'
+import LoadingOverlay from '../components/loading/LoadingOverlay'
 
 const Home: NextPage = () => {
 
   // const [page, setPage] = useState<number>(1);
   // const [pageSize, setpageSize] = useState<number>(20);
   const [articles, setArticles] = useState<Article[]>([]);
-  // const [query, setQuery] = useState<string>("a");
+  const [search, setSearch] = useState<string>("");
   // const [totalResults, setTotalResults] = useState<number>(0)
+  const [pageSize, setPageSize] = useState<number>(10)
+  const [page, setPage] = useState<number>(0)
+  const [totalArticles, setTotalArticles] = useState<number>(0)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   useEffect(() => {
+    setIsLoading(true)
     getNews()
-  }, [])
+  }, [page])
 
-  // useEffect(() => {
-  //   getNews();
-  // }, [query])
+  useEffect(() => {
+    getNews();
+  }, [search])
 
   const getNews =async () => {
+    const articlesResponse: any = await request.getArticles({page, pageSize, search})
 
-    const articlesResponse: any = await request.getArticles();
-    
-    // const everyNews: EveryNews = await request.getEveryNews({
-    //   pageSize,
-    //   page,
-    //   sortBy: 'publishedAt',
-    //   q: query // q means query
-    // });
-
-    // setTotalResults(everyNews.totalResults)
-    setArticles(articlesResponse)
+    setTotalArticles(articlesResponse.totalArticles)
+    setArticles(articlesResponse.articles)
+    setIsLoading(false)
   }
 
-  // const onSearch = ({target}: {target: EventTarget & HTMLInputElement}) => {
-  //   setQuery(target.value)
-  // }
+  const onSearch = ({target}: {target: EventTarget & HTMLInputElement}) => {
+    setSearch(target.value)
+  }
 
   return (
     <Layout>
       <>
+        <LoadingOverlay isShow={isLoading} />
         <div className='flex flex-col justify-center items-center mb-14'>
           <h1 className='font-medium text-7xl text-center'>
               <span className='text-primary'>next</span>
@@ -63,7 +64,7 @@ const Home: NextPage = () => {
             <input 
               type="text" 
               className='px-2 py-2 w-full' 
-              // onChange={onSearch}  
+              onChange={onSearch}
             />          
           </div>
         </div>
@@ -89,6 +90,10 @@ const Home: NextPage = () => {
               </div>
             </div>
           )}
+        </div>
+
+        <div className='mt-14'>
+          <Pagination totalPages={totalArticles/pageSize} page={page} onChange={(selected)=> {setPage(selected.selected)}}  isLoading={isLoading} />
         </div>
       </>
     </Layout>
