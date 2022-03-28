@@ -17,7 +17,7 @@ const admin = () => {
   const [articles, setArticles] = useState<Article[]>([]);
   const [targetDeleteArticleId, setTargetDeleteArticleId ] = useState<string>("");
   const [isdeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
-  const [pageSize, setPageSize] = useState<number>(2)
+  const [pageSize, setPageSize] = useState<number>(10)
   const [page, setPage] = useState<number>(0)
   const [totalArticles, setTotalArticles] = useState<number>(0)
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -69,7 +69,11 @@ const admin = () => {
           </div>
 
           <ArticlesTable articles={articles} showDeleteModal={showDeleteModal} />
-          <Pagination totalPages={totalArticles/pageSize} page={page} onChange={(selected)=> {setPage(selected.selected)}}  isLoading={isLoading} />
+          {
+            articles.length >= 1 && totalArticles/pageSize >= 1? 
+            <Pagination totalPages={totalArticles/pageSize} page={page} onChange={(selected)=> {setPage(selected.selected)}}  isLoading={isLoading} />:
+            null
+          }
         </>
     </Layout>
   )

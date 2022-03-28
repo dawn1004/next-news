@@ -13,6 +13,7 @@ import { Article } from '../services/types'
 import { SearchIcon } from '@heroicons/react/solid'
 import Pagination from '../components/Pagination'
 import LoadingOverlay from '../components/loading/LoadingOverlay'
+import SearchNotFound from '../assets/images/search_not_found.png'
 
 const Home: NextPage = () => {
 
@@ -31,10 +32,6 @@ const Home: NextPage = () => {
     getNews()
   }, [page])
 
-  useEffect(() => {
-    getNews();
-  }, [search])
-
   const getNews =async () => {
     const articlesResponse: any = await request.getArticles({page, pageSize, search})
 
@@ -43,8 +40,15 @@ const Home: NextPage = () => {
     setIsLoading(false)
   }
 
-  const onSearch = ({target}: {target: EventTarget & HTMLInputElement}) => {
+  const searchInputHandler = ({target}: {target: EventTarget & HTMLInputElement}) => {
     setSearch(target.value)
+  }
+
+  const onSearch = (e: React.KeyboardEvent<HTMLInputElement>) =>{
+    if(e.key === "Enter"){
+      setIsLoading(true)
+      getNews()
+    }
   }
 
   return (
@@ -64,7 +68,8 @@ const Home: NextPage = () => {
             <input 
               type="text" 
               className='px-2 py-2 w-full' 
-              onChange={onSearch}
+              onChange={searchInputHandler}
+              onKeyUp={onSearch}
             />          
           </div>
         </div>
@@ -92,9 +97,21 @@ const Home: NextPage = () => {
           )}
         </div>
 
-        <div className='mt-14'>
-          <Pagination totalPages={totalArticles/pageSize} page={page} onChange={(selected)=> {setPage(selected.selected)}}  isLoading={isLoading} />
-        </div>
+        {
+          articles.length >= 1 && totalArticles/pageSize >= 1? 
+          <div className='mt-14'>
+            <Pagination totalPages={totalArticles/pageSize} page={page} onChange={(selected)=> {setPage(selected.selected)}}  isLoading={isLoading} />
+          </div>:
+          null
+        }
+        {
+          (articles.length > 0 || isLoading)? 
+          null:
+          <div className='flex flex-col items-center justify-center'>
+            <Image src={SearchNotFound} width={200} height={200}/>
+            <span>No results found for '{search}'.</span>
+          </div>
+        }
       </>
     </Layout>
   )
