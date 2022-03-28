@@ -25,10 +25,6 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ### Available Endpoints:
 
-```http
-GET /api/articles/f/<slug>
-```
-
 
 ```http
 GET /api/articles
