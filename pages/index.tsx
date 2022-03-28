@@ -44,6 +44,7 @@ const Home: NextPage = () => {
 
   const onSearch = (e: React.KeyboardEvent<HTMLInputElement>) =>{
     if(e.key === "Enter"){
+      setPage(0)
       setIsLoading(true)
       getNews()
     }
