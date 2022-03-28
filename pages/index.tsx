@@ -105,7 +105,7 @@ const Home: NextPage = () => {
           null:
           <div className='flex flex-col items-center justify-center'>
             <Image src={SearchNotFound} width={200} height={200}/>
-            <span>No results found for '{search}'.</span>
+            <span>No results found for {`'${search}'`}.</span>
           </div>
         }
       </>

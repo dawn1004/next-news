@@ -12,7 +12,7 @@ import { toast } from 'react-toastify'
 import Pagination from '../../components/Pagination'
 import LoadingOverlay from '../../components/loading/LoadingOverlay'
 
-const admin = () => {
+const Admin = () => {
   const router = useRouter()
   const [articles, setArticles] = useState<Article[]>([]);
   const [targetDeleteArticleId, setTargetDeleteArticleId ] = useState<string>("");
@@ -79,4 +79,4 @@ const admin = () => {
   )
 }
 
-export default admin
+export default Admin

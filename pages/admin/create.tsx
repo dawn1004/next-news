@@ -12,7 +12,7 @@ import { toast } from 'react-toastify'
 // TODO: VIEW ARTICLE
 // TODO: SEARCH ARTICLE
 
-const create = () => {
+const Create = () => {
     const router = useRouter()
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [isReadyToSave, setIsReadyToSave] = useState<boolean>(false);
@@ -206,4 +206,4 @@ const create = () => {
     )
 }
 
-export default create
+export default Create
