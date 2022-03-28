@@ -4,7 +4,8 @@ const nextConfig = {
   env: {
     BASE_URL: process.env.BASE_URL,
     API_KEY: process.env.API_KEY,
-    MONGO_URI: `mongodb+srv://next-news-user:3JevWBAP65EB01p2@cluster0.njou8.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
+    MONGO_URI: process.env.MONGO_URI,
+    CLOUDINARY_API: process.env.CLOUDINARY_API,
   }
 }
 

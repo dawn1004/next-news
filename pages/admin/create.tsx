@@ -64,7 +64,7 @@ const create = () => {
             formData.append("file", selectedFile)
             formData.append("upload_preset", "next-news-uploads")
 
-            const res =  await axios.post("https://api.cloudinary.com/v1_1/dmbclesa4/image/upload", formData)
+            const res =  await axios.post(`${process.env.CLOUDINARY_API}`, formData)
             const {data} = await res
             let securedUrl = ""
             if(data){
