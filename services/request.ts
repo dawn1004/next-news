@@ -38,6 +38,10 @@ class MainApi extends HttpClient {
     return this.instance.get<any>(`${END_POINTS.ARTICLES}/${_id}`)
   }
 
+  public getArticlesBySlug = (slug: string): AxiosPromise<any> => {
+    return this.instance.get<any>(`${END_POINTS.ARTICLES}/f/${slug}`)
+  }
+
   public createArticle = (body: CreateArticleBody): AxiosPromise<any> => {
     return this.instance.post<any>(END_POINTS.ARTICLES, body)
   }

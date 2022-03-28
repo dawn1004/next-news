@@ -27,6 +27,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         const { Article } = await connect() // connect to database
         res.json(await Article.findOne({slug}).catch(catcher))
     }
+
+    
   }
 
   // Check if there is a response for the particular method, if so invoke it, if not response with an error

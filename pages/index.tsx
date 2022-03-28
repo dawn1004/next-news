@@ -14,14 +14,12 @@ import { SearchIcon } from '@heroicons/react/solid'
 import Pagination from '../components/Pagination'
 import LoadingOverlay from '../components/loading/LoadingOverlay'
 import SearchNotFound from '../assets/images/search_not_found.png'
+import { useRouter } from 'next/router'
 
 const Home: NextPage = () => {
-
-  // const [page, setPage] = useState<number>(1);
-  // const [pageSize, setpageSize] = useState<number>(20);
+  const router = useRouter()
   const [articles, setArticles] = useState<Article[]>([]);
   const [search, setSearch] = useState<string>("");
-  // const [totalResults, setTotalResults] = useState<number>(0)
   const [pageSize, setPageSize] = useState<number>(10)
   const [page, setPage] = useState<number>(0)
   const [totalArticles, setTotalArticles] = useState<number>(0)
@@ -74,15 +72,13 @@ const Home: NextPage = () => {
           </div>
         </div>
 
-
-        {/* <span className={`text-lg font-meduim mt-4 ${query === "a"? 'hidden': ''}`}>
-          { 
-            `About ${totalResults} article result `
-          }
-        </span> */}
         <div className='container mx-auto grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 pt-6 gap-4'>
           {articles.map((article, idx) => 
-            <div key={idx} className="rounded overflow-hidden h-72 transition duration-500 ease-in-out transform hover:scale-90 cursor-pointer relative">
+            <div 
+              key={idx} 
+              className="rounded overflow-hidden h-72 transition duration-500 ease-in-out transform hover:scale-90 cursor-pointer relative"
+              onClick={()=>{router.push(`/articles/${article.slug}`)}}
+            >
               <img 
                 className='w-full h-full object-cover'
                 src={article.thumbSizeImgUrl}
