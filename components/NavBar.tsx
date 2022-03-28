@@ -16,10 +16,10 @@ const NavBar = ({isAdmin}: INavBar) => {
             <div className='container flex md:flex-row flex-col md:justify-between'>
                 
                 <div className='flex justify-between items-center'>   
-                    <a href="#" className='font-medium text-3xl'>
+                    <div onClick={()=>{router.push(isAdmin? '/Admin': '/')}} className='font-medium text-3xl cursor-pointer'>
                         <span className='text-primary'>next</span>
                         <span>{isAdmin? 'Admin': 'News'}</span>
-                    </a>
+                    </div>
                     <div 
                         className='md:hidden cursor-pointer'
                         onClick={()=>{setIsOpen(oldVal => !oldVal)}}
@@ -33,8 +33,8 @@ const NavBar = ({isAdmin}: INavBar) => {
                     <></>:
                     <div className={`flex md:flex-row flex-col md:items-center md:justify-center overflow-hidden ${isOpen? '': 'h-0'} md:h-auto`}>
                         <ul className='flex md:flex-row flex-col md:items-center md:mr-6 font-medium md:mt-0 mt-6'>
-                            <li onClick={()=>{router.push('/')}} className='md:mr-6 md:mb-0 mb-2'>About Us</li>
-                            <li onClick={()=>{router.push('/')}} className='md:mb-0 mb-2'>Articles</li>
+                            <li onClick={()=>{router.push('/about')}} className='md:mr-6 md:mb-0 mb-2 cursor-pointer'>About Us</li>
+                            <li onClick={()=>{router.push('/')}} className='md:mb-0 mb-2 cursor-pointer'>Articles</li>
                         </ul>          
                         <button 
                             onClick={()=>{router.push('/')}}
