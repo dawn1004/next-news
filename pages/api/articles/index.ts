@@ -13,7 +13,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
     });
 
-    //capture request method, we type it as a key of ResponseFunc to reduce typing later
+    //capture request method
     const method: keyof ResponseFuncs = req.method as keyof ResponseFuncs
 
     //function for catch errors
@@ -43,11 +43,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             const createdArticle = await Article.create({...req.body, slug: generateUniqueSlug(req.body.title)}).catch(catcher)
             res.json(createdArticle)
         },
-        // DELETE: async(req: NextApiRequest, res: NextApiResponse) => {
-        //   const { Article } = await connect() // connect to database
-        //   await Article.remove({_id: req.body._id})
-
-        // }
     }
 
     // Check if there is a response for the particular method, if so invoke it, if not response with an error
