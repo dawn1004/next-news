@@ -8,31 +8,24 @@ import Footer from './Footer'
 import NavBar from './NavBar'
 import PromoBanner from './PromoBanner'
 import 'react-toastify/dist/ReactToastify.css';
+import { Article } from '../services/types';
 
-export interface Head{
-    title: string;
-    meta?: {
-        description?: string;
-        author?: string;
-    };
-    icon?: string;
-    img: string;
-}
 
 interface LayoutProps {
     children: ReactChild | ReactChildren;
-    head?: Head;
+    head?: Article;
     isAdmin?: boolean;
 }
 
-const defaultHeadValue = {
+const defaultHeadValue: Article = {
+    _id: 0,
+    slug: "",
     title: "next-news",
-    meta: {
-        description: "NextNews exam for the position of frontend developer/software engineer",
-        author: "Dawn Lemuel Bugay"
-    },
-    icon: "/favicon.ico",
-    img: "/favicon.ico"
+    origSizeImgUrl: "/favicon.ico",
+    thumbSizeImgUrl: "/favicon.ico",
+    body: "NextNews exam for the position of frontend developer/software engineer",
+    author: "dawn lemuel bugay",
+    published: new Date()
 }
 
 const Layout = ({children, head = defaultHeadValue, isAdmin=false}: LayoutProps) => {
@@ -51,20 +44,20 @@ const Layout = ({children, head = defaultHeadValue, isAdmin=false}: LayoutProps)
                 theme={'dark'}
             />
             <Head>
-                <title>{head.title}</title>
-                <meta name="description" content={head.meta?.description} />
-                <meta name="author" content={head.meta?.author} />
-                <meta property="og:title" content={head.title} />
-                <meta property="og:description" content={head.meta?.description} />
+                <title>{head?.title}</title>
+                <meta name="description" content={head?.body} />
+                <meta name="author" content={head?.author} />
+                <meta property="og:title" content={head?.title} />
+                <meta property="og:description" content={head?.body} />
                 <meta property="og:type" content="article" />
-                <meta property="og:image" content={head.img} />
+                <meta property="og:image" content={head?.thumbSizeImgUrl} />
                 <meta name="twitter:card" content="summary_large_image" />
-                <meta name="twitter:title" content={head.title} />
-                <meta name="twitter:description" content={head.meta?.description} />
-                <meta name="twitter:image" content={head.img} />
-                <meta name="twitter:image:alt" content={head.title} />
+                <meta name="twitter:title" content={head?.title} />
+                <meta name="twitter:description" content={head?.body} />
+                <meta name="twitter:image" content={head?.thumbSizeImgUrl} />
+                <meta name="twitter:image:alt" content={head?.title} />
 
-                <link rel="icon" href={head.icon} />
+                <link rel="icon" href="/favicon.ico" />
             </Head>
             <PromoBanner />
             <NavBar isAdmin={isAdmin} />

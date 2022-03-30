@@ -1,25 +1,24 @@
+import { NextPage, NextPageContext } from 'next'
 import Error from 'next/error'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
-import Layout, { Head } from '../../components/Layout'
+import Layout from '../../components/Layout'
 import request from '../../services/request'
 import { Article } from '../../services/types'
 
-const Article = () => {
+const Article: NextPage<InitialProps> = ({headData}) => {
     const router = useRouter()
     const {slug} = router.query
     const [article, setArticle] = useState<Article | null>()
     const [notFound, setNotFound] = useState<boolean>(false)
-    const [head, setHead] = useState<Head>()
 
     
     useEffect(() => {
         if(article==null && slug){
             getArticle()
         }
-        console.log('triggered')
     }, [slug, article])
     
 
@@ -33,20 +32,11 @@ const Article = () => {
         }
 
         setArticle(articlesResponse)
-        setHead({
-            title: articlesResponse.title,
-            meta: {
-                description: articlesResponse.body,
-                author: articlesResponse.author
-            },
-            // icon: articlesResponse.thumbSizeImgUrl,
-            img: articlesResponse.thumbSizeImgUrl
-        })
     }
 
     return (
         !notFound?
-        <Layout head={head}>
+        <Layout head={headData}>
             <div className='container max-w-4xl mx-auto'>
                 <h1 className='text-4xl font-medium'>{article?.title}</h1>
                 <span className='mt-4 block font-semibold text-blue-700'>{article?.author}</span>
@@ -67,5 +57,22 @@ const Article = () => {
         <Error statusCode={404} />
     )
 }
+
+interface InitialProps{
+    headData?: Article;
+    error?: string;
+}
+
+Article.getInitialProps = async (ctx: NextPageContext): Promise<InitialProps> => {
+    const slug = ctx.asPath?.split("/articles/").join("")
+
+    if(slug){
+        const articlesResponse: Article = await request.getArticlesBySlug(slug)
+        console.log(articlesResponse)
+        return {headData: articlesResponse}
+    }
+
+    return {error: "no article found"}
+} 
 
 export default Article
